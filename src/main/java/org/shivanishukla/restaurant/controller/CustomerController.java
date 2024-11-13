@@ -1,6 +1,8 @@
 package org.shivanishukla.restaurant.controller;
 
 import org.shivanishukla.restaurant.dto.CustomerRequest;
+import org.shivanishukla.restaurant.dto.CustomerResponse;
+import org.shivanishukla.restaurant.entity.Customer;
 import org.shivanishukla.restaurant.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.shivanishukla.restaurant.dto.LoginRequest;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,4 +24,15 @@ public class CustomerController {
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request){
         return ResponseEntity.ok(customerservice.createCustomer(request));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginCustomer(@RequestBody @Valid LoginRequest loginRequest){
+        Optional<CustomerResponse> customer = customerservice.loginCustomer(loginRequest);
+        if(customer.isPresent()){
+            return ResponseEntity.ok("Login successful");
+        }else {
+            return ResponseEntity.status(401).body("Invalid email or password");
+        }
+    }
+
 }

@@ -20,5 +20,7 @@ public record CustomerRequest(
     @NotEmpty(message = "Password should be present")
     @NotBlank(message="Password should be present")
     @JsonProperty("password")
-    String password){
+    String password
+
+    ){
 }

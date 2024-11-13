@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import org.shivanishukla.restaurant.dto.LoginRequest;
+
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 
@@ -21,4 +25,10 @@ public class CustomerService {
      repo.save(customer);
      return "Created";
  }
+
+ public Optional<CustomerResponse> loginCustomer(LoginRequest loginRequest){
+     Optional<Customer> customer =repo.findByEmailAndPassword(loginRequest.email(), loginRequest.password());
+     return customer.map(mapper::toResponse);
+ }
+
 }
