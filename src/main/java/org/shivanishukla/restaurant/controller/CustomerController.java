@@ -25,14 +25,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerservice.createCustomer(request));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginCustomer(@RequestBody @Valid LoginRequest loginRequest){
-        Optional<CustomerResponse> customer = customerservice.loginCustomer(loginRequest);
-        if(customer.isPresent()){
-            return ResponseEntity.ok("Login successful");
-        }else {
-            return ResponseEntity.status(401).body("Invalid email or password");
-        }
+
     }
 
-}
+
