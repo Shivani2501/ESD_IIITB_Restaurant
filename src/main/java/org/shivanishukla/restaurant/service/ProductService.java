@@ -5,6 +5,8 @@ import org.shivanishukla.restaurant.dto.ProductRequest;
 import org.shivanishukla.restaurant.entity.Product;
 import org.shivanishukla.restaurant.repo.ProductRepo;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +47,10 @@ public class ProductService {
         productRepo.save(existingProduct);
         return "Product updated successfully";
     }
+
+    public List<Product> getTop2ProductsByPriceRange(Double minPrice, Double maxPrice) {
+        return productRepo.findTop2ProductsByPriceRange(minPrice, maxPrice);
+    }
+
 
 }
