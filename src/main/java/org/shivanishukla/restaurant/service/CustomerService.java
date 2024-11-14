@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import org.shivanishukla.restaurant.dto.LoginRequest;
-
 import java.util.Optional;
 
 @Service
@@ -64,6 +63,12 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         return mapper.toResponse(customer);
     }
+    public CustomerResponse getCustomerResponseByEmail(String email) {
+        Customer customer = repo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return mapper.toResponse(customer);
+    }
+
 
 
 }

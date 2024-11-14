@@ -79,6 +79,24 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/get/{email}")
+    public ResponseEntity<CustomerResponse> getCustomer(@PathVariable String email, HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String token = authorizationHeader.substring(7);
+        String tokenEmail = jwtHelper.extractEmail(token);
+
+        if (!jwtHelper.validateToken(token, tokenEmail) || !tokenEmail.equals(email)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        CustomerResponse customerResponse = customerservice.getCustomerResponseByEmail(email);
+        return ResponseEntity.ok(customerResponse);
+    }
 
 }
 
