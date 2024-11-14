@@ -13,10 +13,13 @@ public class CustomerMapper {
               .lastName(request.lastName())
               .email(request.email())
               .password(request.password())
+              .city(request.city())
+              .address(request.Address())
+              .pincode(request.pincode())
               .build();
     }
 
     public CustomerResponse toResponse(Customer customer){
-        return new CustomerResponse(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPassword());
+        return new CustomerResponse(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getPassword(), customer.getCity(), customer.getAddress(), customer.getPincode());
     }
 }

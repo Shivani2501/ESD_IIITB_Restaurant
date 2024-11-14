@@ -1,6 +1,7 @@
 package org.shivanishukla.restaurant.service;
 
 import org.shivanishukla.restaurant.dto.CustomerRequest;
+import org.shivanishukla.restaurant.dto.CustomerResponse;
 import org.shivanishukla.restaurant.entity.Customer;
 import org.shivanishukla.restaurant.mapper.CustomerMapper;
 import org.shivanishukla.restaurant.repo.CustomerRepo;
@@ -39,5 +40,30 @@ public class CustomerService {
         }
         return "Wrong password or Email";
     }
+
+    public String updateCustomer(String email, CustomerRequest updatedRequest) {
+        Customer existingCustomer = getCustomer(email);
+
+        existingCustomer.setFirstName(updatedRequest.firstName());
+        existingCustomer.setLastName(updatedRequest.lastName());
+        existingCustomer.setCity(updatedRequest.city());
+        existingCustomer.setAddress(updatedRequest.Address());
+        existingCustomer.setPincode(updatedRequest.pincode());
+
+        // Update password only if it's provided in the request
+        if (updatedRequest.password() != null && !updatedRequest.password().isEmpty()) {
+            existingCustomer.setPassword(encryptionService.encode(updatedRequest.password()));
+        }
+
+        repo.save(existingCustomer);  // Save the updated customer in the database
+        return "Customer updated successfully";
+    }
+
+    public CustomerResponse deleteCustomer(String email) {
+        Customer customer = repo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return mapper.toResponse(customer);
+    }
+
 
 }

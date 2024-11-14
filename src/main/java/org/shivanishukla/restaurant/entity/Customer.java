@@ -25,4 +25,13 @@ public class Customer {
 
  @Column(name = "password",nullable = false)
  private String password;
+
+ @Column(name = "pincode",nullable = false)
+ private String pincode;
+
+ @Column(name = "address",nullable = false)
+ private String address;
+
+ @Column(name = "city" ,nullable = false)
+ private String city;
 }
