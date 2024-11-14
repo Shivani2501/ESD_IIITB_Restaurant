@@ -20,4 +20,30 @@ public class ProductService {
         productRepo.save(product);
         return "Product created successfully";
     }
+    public String deleteProduct(Long productId) {
+        if (productRepo.existsById(productId)) {
+            productRepo.deleteById(productId);
+            return "Product deleted successfully";
+        } else {
+            throw new RuntimeException("Product not found");
+        }
+    }
+
+    public Product getProductById(Long productId) {
+        return productRepo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+
+    public String updateProduct(Long productId, ProductRequest updatedProduct) {
+        Product existingProduct = productRepo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        existingProduct.setProductName(updatedProduct.productName());
+        existingProduct.setProductPrice(updatedProduct.productPrice());
+
+        productRepo.save(existingProduct);
+        return "Product updated successfully";
+    }
+
 }
