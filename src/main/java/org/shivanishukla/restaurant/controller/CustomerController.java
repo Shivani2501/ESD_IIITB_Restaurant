@@ -27,12 +27,12 @@ import jakarta.validation.Valid;
 public class CustomerController {
     private final CustomerService customerservice;
     private final JWTHelper jwtHelper;
-    @PostMapping("/create")
+    @PostMapping("/{email}")
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request){
         return ResponseEntity.ok(customerservice.createCustomer(request));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/{email}")
     public ResponseEntity<String> updateCustomer(@RequestBody @Valid CustomerRequest request, HttpServletRequest httpRequest) {
         String email = request.email(); // Email from the request body
         String authorizationHeader = httpRequest.getHeader("Authorization");
@@ -55,7 +55,7 @@ public class CustomerController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/delete/{email}")
+    @DeleteMapping("/{email}")
     public ResponseEntity<String> deleteCustomer(@PathVariable String email, HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -79,7 +79,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/get/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable String email, HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
 
